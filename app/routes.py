@@ -40,7 +40,7 @@ def shorten():
         return jsonify({'error': 'No URL provided'}), 400
     short_url = generate_short_url()
     if save_url(short_url, original_url):
-        return jsonify({'short_url': f'https://url-shortner-git-main-kanagarajs-projects.vercel.app/{short_url}'})
+        return jsonify({'short_url': f'https://url-shortner-beta-fawn.vercel.app/{short_url}'})
     else:
         return jsonify({'error': 'Failed to save URL'}), 500
 
