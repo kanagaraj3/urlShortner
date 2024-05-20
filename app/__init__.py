@@ -1,11 +1,12 @@
-# __init__.py
-
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy  # Removed import (not used)
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://default:Z4Qo2WtBFwDN@ep-nameless-water-a4whe7o1.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require'
+
+# Removed database configuration (not used)
+
 app.config['PREFERRED_URL_SCHEME'] = 'https'
-db = SQLAlchemy(app)
+
+# db = SQLAlchemy(app)  # Removed (not used)
 
 from app import routes
