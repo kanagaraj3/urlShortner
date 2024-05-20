@@ -1,3 +1,5 @@
+// script.js
+
 document.addEventListener('DOMContentLoaded', () => {
     const urlForm = document.getElementById('url-form');
     const originalUrlInput = document.getElementById('original-url');
