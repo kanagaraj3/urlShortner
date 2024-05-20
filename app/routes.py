@@ -1,17 +1,9 @@
-from flask import Flask, request, jsonify, render_template, redirect
+from flask import request, jsonify, render_template, redirect
 import string
 import random
-from flask_sqlalchemy import SQLAlchemy
+from app import app, db
+from app.models import URL
 from sqlalchemy.exc import IntegrityError
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///urls.db'
-app.config['PREFERRED_URL_SCHEME'] = 'https'
-db = SQLAlchemy(app)
-class URL(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    short_url = db.Column(db.String(10), unique=True)
-    original_url = db.Column(db.String(255), nullable=False)
 
 def generate_short_url():
     characters = string.ascii_letters + string.digits
@@ -43,10 +35,12 @@ def index():
 
 @app.route('/shorten', methods=['POST'])
 def shorten():
-    original_url = request.form['original_url']
+    original_url = request.form.get('original_url')
+    if not original_url:
+        return jsonify({'error': 'No URL provided'}), 400
     short_url = generate_short_url()
     if save_url(short_url, original_url):
-        return jsonify({'short_url': request.host_url + short_url})
+        return jsonify({'short_url': f'https://url-shortner-git-main-kanagarajs-projects.vercel.app/{short_url}'})
     else:
         return jsonify({'error': 'Failed to save URL'}), 500
 
@@ -57,6 +51,3 @@ def redirect_to_url(short_url):
         return redirect(original_url)
     else:
         return "Not Found", 404
-
-if __name__ == '__main__':
-    app.run(debug=True)
